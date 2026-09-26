@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Liham — a letter to your future self</title>
+<meta name="description" content="Write a letter today, receive it tomorrow. Liham is a quiet digital time capsule for letters to your future self." />
+
+<link rel="icon" href="images/logo.png" />
+
+<!-- Palisade Regular: place PalisadeRegular.woff2 / .woff / .ttf in assets/fonts/
+     (Palisade is a paid/licensed typeface — no public CDN, so it is loaded
+     locally via @font-face in style.css). A close free fallback, Herr Von Muellerhoff,
+     is loaded from Google Fonts in case the local file is missing. -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Herr+Von+Muellerhoff&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ============ INTRO / HANDWRITTEN LOGO ANIMATION ============ -->
+<div id="intro" aria-hidden="true">
+  <div id="intro-logo" role="img" aria-label="Liham">Liham</div>
+  <p id="intro-caption">a letter to your future self</p>
+</div>
+
+<!-- ============ HOMEPAGE ============ -->
+<div id="site" class="hidden">
+
+  <header class="site-header">
+    <div class="brand">
+      <img src="images/logo.png" alt="Liham" class="brand-mark" />
+      <div class="brand-text">
+        <span class="brand-name">Liham</span>
+        <span class="brand-tag">A letter to your future self</span>
+      </div>
+    </div>
+    <nav class="site-nav">
+      <a href="#unrolled" class="nav-link">Kept letters</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="hero">
+      <p class="hero-line">Write something today that you would like to receive tomorrow.</p>
+
+      <button id="quill-button" class="quill-button" aria-label="Begin writing a letter to your future self">
+        <svg viewBox="0 0 120 120" class="quill-icon" aria-hidden="true">
+          <path d="M92 12c8 2 16 10 18 18-14 4-40 14-58 32C34 80 28 96 24 108
+                   c-2 6-8 8-14 6 10-4 8-10 8-14 4-14 12-36 30-54C66 28 78 16 92 12Z"
+                fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" />
+          <path d="M92 12C78 24 64 40 52 54M40 90c6-2 12-6 16-10" fill="none" stroke="currentColor" stroke-width="1.4" />
+        </svg>
+        <span>Begin your letter</span>
+      </button>
+
+      <p class="hero-hint">No account needed. Just a page, and a date to open it.</p>
+    </section>
+
+    <!-- ============ LETTER WRITING PAPER ============ -->
+    <section id="letter-stage" class="letter-stage" hidden>
+      <button id="letter-close" class="letter-close" aria-label="Close the letter">✕</button>
+
+      <div id="letter-paper" class="letter-paper">
+        <img src="images/letter-paper.png" alt="" class="paper-bg" />
+
+        <form id="letter-form" class="letter-form" novalidate>
+          <div class="field-row field-to">
+            <label for="field-to" class="field-label">To</label>
+            <input id="field-to" name="to" class="field-input" type="text"
+                   placeholder="my future self" maxlength="80" required />
+          </div>
+
+          <label for="field-message" class="field-label field-label--message">Message</label>
+          <textarea id="field-message" name="message" class="field-message"
+                    placeholder="Dear future me, today I..." required maxlength="4000"></textarea>
+
+          <div class="field-row field-from">
+            <label for="field-from" class="field-label">From</label>
+            <input id="field-from" name="from" class="field-input" type="text"
+                   placeholder="your name, or no one at all" maxlength="80" required />
+          </div>
+        </form>
+      </div>
+
+      <div class="letter-actions">
+        <label class="share-toggle">
+          <input type="checkbox" id="field-public" />
+          <span>Let a stranger untie this one someday, with your name removed</span>
+        </label>
+        <button id="send-to-future" class="send-button" type="button">Send to the future</button>
+      </div>
+    </section>
+
+    <!-- ============ DELIVERY DETAILS MODAL ============ -->
+    <div id="delivery-modal" class="modal modal--delivery" hidden aria-hidden="true">
+      <div class="modal-card modal-card--delivery" role="dialog" aria-modal="true" aria-labelledby="delivery-title">
+        <button type="button" id="delivery-close" class="modal-close" aria-label="Close delivery details">✕</button>
+        <h2 id="delivery-title">Where and when should it arrive?</h2>
+
+        <form id="delivery-form" novalidate>
+          <div class="modal-row">
+            <div>
+              <label class="modal-label" for="field-date">Delivery date</label>
+              <input id="field-date" name="date" type="date" class="modal-input" required />
+            </div>
+            <div>
+              <label class="modal-label" for="field-time">Delivery time</label>
+              <input id="field-time" name="time" type="time" class="modal-input" value="09:00" required />
+            </div>
+          </div>
+          <p class="field-error" id="error-date" hidden>Please choose a date and time in the future.</p>
+
+          <label class="modal-label" for="field-email">Your email</label>
+          <input id="field-email" name="email" type="email" class="modal-input"
+                 placeholder="you@example.com" required />
+          <p class="field-error" id="error-email" hidden>Please enter a valid email address.</p>
+
+          <label class="modal-label" for="field-timezone">Timezone</label>
+          <select id="field-timezone" name="timezone" class="modal-input"></select>
+
+          <div class="modal-actions">
+            <button type="button" id="delivery-cancel" class="ghost-button">Back</button>
+            <button type="submit" class="send-button">Seal the letter</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ============ CONFIRMATION ============ -->
+    <div id="confirm-modal" class="modal" hidden aria-hidden="true">
+      <div class="modal-card modal-card--confirm" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+        <div class="wax-seal" aria-hidden="true">L</div>
+        <h2 id="confirm-title">Your letter has been sealed.</h2>
+        <p id="confirm-detail" class="confirm-detail"></p>
+        <button id="confirm-close" class="send-button">Done</button>
+      </div>
+    </div>
+
+    <!-- ============ ANONYMOUS LETTERS ============ -->
+    <section id="unrolled" class="scrolls-section">
+      <h2 class="scrolls-title">Letters left open for anyone</h2>
+      <p class="scrolls-sub">Shared by their writers, with names left behind. Click one to unroll it.</p>
+
+      <div id="scrolls-grid" class="scrolls-grid" aria-live="polite">
+        <p id="scrolls-empty" class="scrolls-empty" hidden>No one has shared a letter publicly yet. Yours could be the first.</p>
+      </div>
+    </section>
+
+    <!-- ============ UNROLLED SCROLL VIEWER ============ -->
+    <div id="scroll-modal" class="modal" hidden aria-hidden="true">
+      <div class="modal-card modal-card--scroll" role="dialog" aria-modal="true" aria-labelledby="scroll-title">
+        <button id="scroll-close" class="letter-close" aria-label="Close">✕</button>
+        <p id="scroll-title" class="scroll-message"></p>
+        <p id="scroll-meta" class="scroll-meta"></p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <span>Liham — written once, opened later.</span>
+  </footer>
+</div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
